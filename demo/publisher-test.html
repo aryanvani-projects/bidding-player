@@ -48,31 +48,10 @@
       margin-bottom: 30px;
     }
 
-    /* ════════════════════════════════════════════════════════════════ */
-    /* 🛡️ THE ENVIRONMENT LAYER SHIELD                                 */
-    /* ════════════════════════════════════════════════════════════════ */
-    
-    /* Target any ad container slot built inside your dynamic mount point */
-    #comparos-video-placement .adtech-ad-overlay,
-    #comparos-video-placement [class*="ima"],
-    #comparos-video-placement div[style*="z-index"] {
-      pointer-events: none !important;
-      z-index: -1 !important;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-
-    /* Elevate and unlock pointer events ONLY when an ad is explicitly running */
-    #comparos-video-placement.vjs-ad-playing .adtech-ad-overlay,
-    #comparos-video-placement.vjs-ad-playing [class*="ima"],
-    #comparos-video-placement.vjs-ad-playing div[style*="z-index"],
-    .ad-active .adtech-ad-overlay {
-      pointer-events: auto !important;
-      z-index: 2147483647 !important; /* Forces layout depth above player skin skins */
-      display: block !important;
-      opacity: 1 !important;
-    }
-    /* ════════════════════════════════════════════════════════════════ */
+    /* Ad overlay visibility is fully managed by the engine via inline styles
+       on the ad container (z-index + pointer-events). No CSS shield needed —
+       the engine sets z-index:-1; pointer-events:none between ads and flips
+       to z-index:10; pointer-events:auto on CONTENT_PAUSE_REQUESTED. */
 
     .video-placement-wrapper {
       background: #000000;
