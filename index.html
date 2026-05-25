@@ -552,6 +552,7 @@
 <nav class="tab-nav" role="tablist">
   <button class="tab-btn active" data-tab="sandbox"    role="tab">🎛️ Sandbox Testing Suite</button>
   <button class="tab-btn"        data-tab="production" role="tab">🚀 Production Tag Generator</button>
+  <a class="tab-btn" href="docs.html" style="text-decoration:none;flex:0 0 auto;padding-left:18px;padding-right:18px;">📖 Publisher Docs ↗</a>
 </nav>
 
 <div class="tab-pane active" id="tab-sandbox" role="tabpanel">
@@ -888,9 +889,21 @@ $('resetBtn').addEventListener('click', () => { disposePlayer(); $('playerCard')
     document.getElementById('adopsReadme').value = [
       '📋 DEPLOYMENT SUMMARY',
       '====================================================',
-      'Provide the snippet generated above to the engineering leads.',
-      'They can paste this structural element anywhere within their HTML document grid.',
-      'The platform loop handles rendering mechanics autonomously.'
+      'Hand the snippet generated above to your publisher engineering contact.',
+      'They paste it anywhere on the page where the video player should render.',
+      'The engine auto-creates a mount div and loads all dependencies from CDN.',
+      '',
+      '⚠️  GAM SETUP IS REQUIRED before this works in production:',
+      '  • Custom key-values: hb_pb, hb_bidder, hb_uuid, hb_size, hb_format, hb_adid',
+      '  • VAST wrapper creative: prebid.adnxs.com/pbc/v1/cache?uuid=%%PATTERN:hb_uuid%%',
+      '  • Price-bucket line items targeting hb_pb (one per $0.10 step)',
+      '',
+      '📖 FULL INTEGRATION GUIDE:',
+      '   https://aryanvani-pm.github.io/bidding-player/docs.html',
+      '',
+      '   The guide covers: GAM line-item setup, Limelight onboarding,',
+      '   consent management (GDPR/USP/GPP), testing checklists, and',
+      '   troubleshooting for the most common issues.'
     ].join('\n');
   }
 
