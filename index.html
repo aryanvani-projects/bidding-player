@@ -572,6 +572,84 @@
     .adops-copy-feedback.show { opacity: 1; }
 
     .req-star { color: var(--danger); margin-left: 3px; }
+
+    /* Section subheads + collapsible advanced panels (UI grouping) */
+    .adops-subhead {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 24px 0 12px;
+      padding-bottom: 7px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .adops-subhead:first-child { margin-top: 4px; }
+    .adops-subhead-tag {
+      background: var(--accent);
+      color: var(--on-accent);
+      padding: 1px 8px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .3px;
+      text-transform: none;
+    }
+    .adops-disclosure {
+      margin-top: 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .adops-disclosure > summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 13px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--label);
+      user-select: none;
+    }
+    .adops-disclosure > summary::-webkit-details-marker { display: none; }
+    .adops-disclosure > summary::before {
+      content: '▸';
+      color: var(--accent);
+      font-size: 11px;
+      transition: transform .15s;
+    }
+    .adops-disclosure[open] > summary::before { transform: rotate(90deg); }
+    .adops-disclosure > summary:hover { background: var(--accent-soft); }
+    .adops-disclosure-tag {
+      margin-left: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .4px;
+      text-transform: none;
+    }
+    .adops-disclosure-body {
+      padding: 16px 18px 18px;
+      border-top: 1px solid var(--border);
+    }
+    /* Inline label + toggle (Strategic Bias on/off).
+       Qualified with .adops-field + element to outrank `.adops-field label`. */
+    .adops-field label.adops-inline-label { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+    .adops-inline-toggle { display: flex; align-items: center; gap: 7px; }
+    .adops-inline-toggle-state { font-size: 10px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; color: var(--muted); }
+    .adops-field input:disabled { opacity: .45; cursor: not-allowed; }
     .field-info { display: block; margin-top: 6px; font-size: 11.5px; color: var(--text-muted); line-height: 1.55; }
     
     .adops-field.invalid input, .adops-field.invalid textarea, .adops-field.invalid select {
@@ -811,95 +889,115 @@
 <section class="adops-section" id="adopsSection">
   <div class="adops-header">📋 AD OPS TAG GENERATOR TOOL<span class="adops-pill">Production</span></div>
   <div class="adops-body">
+    <!-- ── RELEASE ── -->
+    <div class="adops-subhead">Release</div>
     <div class="adops-grid">
       <div class="adops-field full" data-required="true">
-        <label>🏷️ Release Version / Branch<span class="req-star">*</span></label>
-        <input type="text" id="adopsVersion" value="v2.1.0" />
-        <span class="field-info">Use a tag like <code>v1.0.0</code> for production (immutable, recommended) or a branch name like <code>feat/foo</code> for testing. Both URLs below auto-update from this value.</span>
+        <label>Release Version / Branch<span class="req-star">*</span></label>
+        <input type="text" id="adopsVersion" value="v2.1.1" />
+        <span class="field-info">Use a tag like <code>v1.0.0</code> for production (immutable, recommended) or a branch name like <code>feat/foo</code> for testing. The CDN URLs in <em>Hosting &amp; CDN</em> auto-update from this value.</span>
       </div>
+    </div>
+
+    <!-- ── AD SERVING ── -->
+    <div class="adops-subhead">Ad Serving</div>
+    <div class="adops-grid">
       <div class="adops-field full" data-required="true">
-        <label>🌐 Universal Hosted Engine Script URL<span class="req-star">*</span></label>
-        <input type="text" id="adopsEngineCdnUrl" value="https://cdn.jsdelivr.net/gh/aryanvani-projects/bidding-player@v2.1.0/engine/player.js" />
-        <span class="field-info">Auto-derived from the version above. Override only if you know what you are doing.</span>
+        <label>GAM Master Ad Tag URL<span class="req-star">*</span></label>
+        <textarea id="adopsAdTagUrl">https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_ad_samples&sz=640x480&cust_params=sample_ct%3Dlinear&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=</textarea>
       </div>
       <div class="adops-field full">
         <label>Video Content URL</label>
         <input type="text" id="adopsVideoUrl" value="https://vjs.zencdn.net/v/oceans.mp4" />
       </div>
-      <div class="adops-field full" data-required="true">
-        <label>GAM Master Ad Tag URL<span class="req-star">*</span></label>
-        <textarea id="adopsAdTagUrl">https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_ad_samples&sz=640x480&cust_params=sample_ct%3Dlinear&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=</textarea>
-      </div>
       <div class="adops-field">
         <label>Bidder Timeout (ms)</label>
         <input type="number" id="adopsTimeout" value="1200" />
       </div>
-      <div class="adops-field">
-        <label>Strategic Bias ($)</label>
+      <div class="adops-field" id="biasField">
+        <label class="adops-inline-label">
+          <span>Strategic Bias ($)</span>
+          <span class="adops-inline-toggle">
+            <span class="adops-inline-toggle-state" id="biasStateLabel">On</span>
+            <span class="toggle-switch on" id="tglBias" role="switch" aria-label="Apply strategic bias"></span>
+          </span>
+        </label>
         <input type="number" id="adopsFloorBias" value="0.10" step="0.01" />
+        <span class="field-info">Thumb-on-the-scale amount added to the winning header-bid CPM before price-bucketing. Switch off to pass the raw bucketed CPM through unchanged (emits <code>data-bias="0.00"</code>).</span>
       </div>
-      <div class="adops-field full" data-required="true">
-        <label>Prebid.js Hosted Library URL<span class="req-star">*</span></label>
-        <input type="text" id="adopsPrebidUrl" value="https://cdn.jsdelivr.net/gh/aryanvani-projects/bidding-player@v2.1.0/prebid/prebid.js" />
-        <span class="field-info">Pick the bundle from <code>prebid/</code> that contains the bidders you tick below. <a href="adops-guide.html#prebid-bundles" target="_blank" rel="noopener" style="color:var(--accent);">How to build a new bundle ↗</a></span>
-      </div>
+    </div>
 
+    <!-- ── BIDDERS ── -->
+    <div class="adops-subhead">Bidders<span class="adops-subhead-tag">v2 multi-bidder</span></div>
+    <div class="adops-grid">
       <div class="bidder-picker-wrap">
-        <div class="bidder-picker-head">
-          <span class="title">🎯 Bidders for this Publisher</span>
-          <span class="pill">v2 multi-bidder</span>
-        </div>
         <p class="bidder-picker-hint">Tick the SSPs that should compete. The highest CPM wins the impression. Limelight is on by default — add others as your inventory expands.</p>
 
         <div id="bidderCards" class="bidder-cards"></div>
 
         <div class="bidder-picker-footer">
-          <span class="warn">⚠ Bundle compatibility:</span> the Prebid URL above must point at a bundle that includes every adapter you tick. If an adapter is missing the bidder is silently dropped at auction time. Need an SSP not listed? <a href="adops-guide.html#prebid-bundles" target="_blank" rel="noopener" style="color:var(--accent);">Trigger a new bundle build ↗</a>
+          <span class="warn">⚠ Bundle compatibility:</span> the Prebid URL (in <em>Hosting &amp; CDN</em> below) must point at a bundle that includes every adapter you tick. If an adapter is missing the bidder is silently dropped at auction time. Need an SSP not listed? <a href="adops-guide.html#prebid-bundles" target="_blank" rel="noopener" style="color:var(--accent);">Trigger a new bundle build ↗</a>
         </div>
       </div>
     </div>
 
-    <div class="adops-advanced">
-      <div class="adops-advanced-title">⚙ Advanced</div>
-      <div class="adops-grid">
-        <div class="adops-field">
-          <label>Prebid Cache URL</label>
-          <input type="text" id="adopsCacheUrl" value="https://prebid.adnxs.com/pbc/v1/cache" />
-        </div>
-        <div class="adops-field">
-          <label>Div ID (Mount Point)</label>
-          <input type="text" id="adopsDivId" value="comparos-video-placement" />
-        </div>
-        <div class="adops-field">
-          <label>Debug Mode by Default?</label>
-          <select id="adopsDebugMode" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
-            <option value="false" selected>false (silent on production sites)</option>
-            <option value="true">true (verbose logging)</option>
-          </select>
+    <!-- ── Hosting & CDN (advanced, collapsed by default) ── -->
+    <details class="adops-disclosure" id="adopsHostingPanel">
+      <summary>Hosting &amp; CDN<span class="adops-disclosure-tag">advanced — auto-filled</span></summary>
+      <div class="adops-disclosure-body">
+        <div class="adops-grid">
+          <div class="adops-field full" data-required="true">
+            <label>Universal Hosted Engine Script URL<span class="req-star">*</span></label>
+            <input type="text" id="adopsEngineCdnUrl" value="https://cdn.jsdelivr.net/gh/aryanvani-projects/bidding-player@v2.1.1/engine/player.js" />
+            <span class="field-info">Auto-derived from the release version above. Override only if you know what you are doing.</span>
+          </div>
+          <div class="adops-field full" data-required="true">
+            <label>Prebid.js Hosted Library URL<span class="req-star">*</span></label>
+            <input type="text" id="adopsPrebidUrl" value="https://cdn.jsdelivr.net/gh/aryanvani-projects/bidding-player@v2.1.1/prebid/prebid.js" />
+            <span class="field-info">Pick the bundle from <code>prebid/</code> that contains the bidders you tick above. <a href="adops-guide.html#prebid-bundles" target="_blank" rel="noopener" style="color:var(--accent);">How to build a new bundle ↗</a></span>
+          </div>
+          <div class="adops-field">
+            <label>Prebid Cache URL</label>
+            <input type="text" id="adopsCacheUrl" value="https://prebid.adnxs.com/pbc/v1/cache" />
+          </div>
+          <div class="adops-field">
+            <label>Div ID (Mount Point)</label>
+            <input type="text" id="adopsDivId" value="comparos-video-placement" />
+          </div>
+          <div class="adops-field full">
+            <label>Debug Mode by Default?</label>
+            <select id="adopsDebugMode" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
+              <option value="false" selected>false (silent on production sites)</option>
+              <option value="true">true (verbose logging)</option>
+            </select>
+          </div>
         </div>
       </div>
-    </div>
+    </details>
 
-    <div class="adops-settings">
-      <div class="adops-settings-title">🎚 Advanced Player Settings</div>
-      <div class="adops-settings-grid">
-        <div class="toggle-wrap"><div class="toggle-switch on" id="tglAutoplay" data-on="true"></div><div><div class="toggle-label">Autoplay on Load</div></div></div>
-        <div class="toggle-wrap"><div class="toggle-switch on" id="tglMuted" data-on="true"></div><div><div class="toggle-label">Start Muted</div></div></div>
-        <div class="adops-field">
-          <label>📐 Player Sizing</label>
-          <select id="optSizing"><option value="fluid" selected>Fluid (Responsive / Mobile-Friendly)</option><option value="fixed">Fixed (Static 640x480 Box)</option></select>
+    <!-- ── Player Behaviour (advanced, collapsed by default) ── -->
+    <details class="adops-disclosure" id="adopsBehaviourPanel">
+      <summary>Player Behaviour<span class="adops-disclosure-tag">advanced</span></summary>
+      <div class="adops-disclosure-body">
+        <div class="adops-settings-grid">
+          <div class="toggle-wrap"><div class="toggle-switch on" id="tglAutoplay" data-on="true"></div><div><div class="toggle-label">Autoplay on Load</div></div></div>
+          <div class="toggle-wrap"><div class="toggle-switch on" id="tglMuted" data-on="true"></div><div><div class="toggle-label">Start Muted</div></div></div>
+          <div class="adops-field">
+            <label>📐 Player Sizing</label>
+            <select id="optSizing"><option value="fluid" selected>Fluid (Responsive / Mobile-Friendly)</option><option value="fixed">Fixed (Static 640x480 Box)</option></select>
+          </div>
+          <div class="adops-field">
+            <label>⏳ Preload Behavior</label>
+            <select id="optPreload"><option value="metadata" selected>metadata (Recommended)</option><option value="auto">auto</option><option value="none">none</option></select>
+          </div>
+          <div class="adops-field">
+            <label>🏆 VPAID Access Mode</label>
+            <select id="optVpaid"><option value="insecure" selected>Insecure (Highest Yield)</option><option value="enabled">Enabled</option><option value="disabled">Disabled</option></select>
+          </div>
+          <div class="toggle-wrap"><div class="toggle-switch on" id="tglLoop" data-on="true"></div><div><div class="toggle-label">Loop Content</div><span class="toggle-hint">Replays the content video after it ends — recommended for ad refresh continuity.</span></div></div>
         </div>
-        <div class="adops-field">
-          <label>⏳ Preload Behavior</label>
-          <select id="optPreload"><option value="metadata" selected>metadata (Recommended)</option><option value="auto">auto</option><option value="none">none</option></select>
-        </div>
-        <div class="adops-field">
-          <label>🏆 VPAID Access Mode</label>
-          <select id="optVpaid"><option value="insecure" selected>Insecure (Highest Yield)</option><option value="enabled">Enabled</option><option value="disabled">Disabled</option></select>
-        </div>
-        <div class="toggle-wrap"><div class="toggle-switch on" id="tglLoop" data-on="true"></div><div><div class="toggle-label">Loop Content</div><span class="toggle-hint">Replays the content video after it ends — recommended for ad refresh continuity.</span></div></div>
       </div>
-    </div>
+    </details>
 
     <div class="adops-actions">
       <button class="adops-btn" id="adopsGenerateBtn">⚡ Generate Production Tag</button>
@@ -1461,7 +1559,9 @@ $('resetBtn').addEventListener('click', () => { disposePlayer(); $('playerCard')
       videoUrl:    get('adopsVideoUrl'),
       adTagUrl:    get('adopsAdTagUrl'),
       timeout:     parseInt(get('adopsTimeout'), 10) || 1200,
-      floorBias:   parseFloat(get('adopsFloorBias')) || 0.10,
+      biasEnabled: document.getElementById('tglBias').classList.contains('on'),
+      // Honour an explicit 0; only fall back to the default when truly blank/NaN.
+      floorBias:   (function () { const b = parseFloat(get('adopsFloorBias')); return isNaN(b) ? 0.10 : b; })(),
       prebidUrl:   get('adopsPrebidUrl'),
       cacheUrl:    get('adopsCacheUrl'),
       divId:       get('adopsDivId') || 'comparos-video-placement',
@@ -1491,7 +1591,7 @@ $('resetBtn').addEventListener('click', () => { disposePlayer(); $('playerCard')
       "        data-bidders='" + safeJson + "'",
       '        data-tag="' + escJs(v.adTagUrl) + '"',
       '        data-timeout="' + v.timeout + '"',
-      '        data-bias="' + v.floorBias.toFixed(2) + '"',
+      '        data-bias="' + (v.biasEnabled ? v.floorBias.toFixed(2) : '0.00') + '"',
       '        data-video="' + escJs(v.videoUrl) + '"',
       '        data-autoplay="' + (v.autoplay ? 'true' : 'false') + '"',
       '        data-muted="' + (v.muted ? 'true' : 'false') + '"',
@@ -1524,7 +1624,14 @@ $('resetBtn').addEventListener('click', () => { disposePlayer(); $('playerCard')
   function onGenerate() {
     const empty = findEmptyRequired();
     if (empty.length > 0) {
-      empty.forEach(id => document.getElementById(id).closest('.adops-field').classList.add('invalid'));
+      empty.forEach(id => {
+        const el = document.getElementById(id);
+        el.closest('.adops-field').classList.add('invalid');
+        // If the offending field lives in a collapsed advanced panel, pop it
+        // open so the user can actually see what they need to fix.
+        const panel = el.closest('details.adops-disclosure');
+        if (panel) panel.open = true;
+      });
       document.getElementById('adopsValidationAlert').classList.add('show');
       document.getElementById('adopsValidationAlert').textContent = '⚠️ Generation Blocked: Please fill in all required fields marked with (*).';
       return;
@@ -1574,6 +1681,17 @@ $('resetBtn').addEventListener('click', () => { disposePlayer(); $('playerCard')
 
   function wireToggle(id) { const el = $(id); el.addEventListener('click', () => el.classList.toggle('on')); }
   ['tglAutoplay', 'tglMuted', 'tglLoop'].forEach(wireToggle);
+
+  // Strategic-bias toggle: flips 'on' like the others, but also enables/greys
+  // the amount input and updates its On/Off label. When off, the generated tag
+  // emits data-bias="0.00" (the engine treats an explicit 0 as "no bias").
+  function syncBiasUI() {
+    const on = $('tglBias').classList.contains('on');
+    $('adopsFloorBias').disabled = !on;
+    $('biasStateLabel').textContent = on ? 'On' : 'Off';
+  }
+  $('tglBias').addEventListener('click', () => { $('tglBias').classList.toggle('on'); syncBiasUI(); });
+  syncBiasUI();
 
   renderBidderPicker();
 })();

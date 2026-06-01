@@ -26,7 +26,11 @@
 
     adTagUrl:    currentScript.getAttribute("data-tag") || "",
     timeout:     parseInt(currentScript.getAttribute("data-timeout"), 10) || 1200,
-    floorBias:   parseFloat(currentScript.getAttribute("data-bias")) || 0.10,
+    // An explicit data-bias="0" (or "0.00") means "no strategic bias" and must
+    // be honoured — a plain `|| 0.10` would wrongly coerce 0 back to the default.
+    // A missing/invalid attribute still falls back to 0.10 so legacy v1 tags
+    // (which never set data-bias) keep their original behaviour.
+    floorBias:   (function (b) { return isNaN(b) ? 0.10 : b; })(parseFloat(currentScript.getAttribute("data-bias"))),
     videoUrl:    currentScript.getAttribute("data-video") || "",
     autoplay:    currentScript.getAttribute("data-autoplay") === "true",
     muted:       currentScript.getAttribute("data-muted") === "true",
