@@ -819,7 +819,7 @@
       </div>
       <div class="adops-field full" data-required="true">
         <label>🌐 Universal Hosted Engine Script URL<span class="req-star">*</span></label>
-        <input type="text" id="adopsEngineCdnUrl" value="https://cdn.jsdelivr.net/gh/aryanvani-pm/bidding-player@v2.1.0/engine/player.js" />
+        <input type="text" id="adopsEngineCdnUrl" value="https://cdn.jsdelivr.net/gh/aryanvani-projects/bidding-player@v2.1.0/engine/player.js" />
         <span class="field-info">Auto-derived from the version above. Override only if you know what you are doing.</span>
       </div>
       <div class="adops-field full">
@@ -840,7 +840,7 @@
       </div>
       <div class="adops-field full" data-required="true">
         <label>Prebid.js Hosted Library URL<span class="req-star">*</span></label>
-        <input type="text" id="adopsPrebidUrl" value="https://cdn.jsdelivr.net/gh/aryanvani-pm/bidding-player@v2.1.0/prebid/prebid.js" />
+        <input type="text" id="adopsPrebidUrl" value="https://cdn.jsdelivr.net/gh/aryanvani-projects/bidding-player@v2.1.0/prebid/prebid.js" />
         <span class="field-info">Pick the bundle from <code>prebid/</code> that contains the bidders you tick below. <a href="adops-guide.html#prebid-bundles" target="_blank" rel="noopener" style="color:var(--accent);">How to build a new bundle ↗</a></span>
       </div>
 
@@ -1507,7 +1507,7 @@ $('resetBtn').addEventListener('click', () => { disposePlayer(); $('playerCard')
     return lines.join('\n');
   }
 
-  const REPO_PATH = 'aryanvani-pm/bidding-player';
+  const REPO_PATH = 'aryanvani-projects/bidding-player';
   function jsdelivrUrl(ref, path) {
     return 'https://cdn.jsdelivr.net/gh/' + REPO_PATH + '@' + ref + '/' + path;
   }
@@ -1557,8 +1557,8 @@ $('resetBtn').addEventListener('click', () => { disposePlayer(); $('playerCard')
       '  • Price-bucket line items targeting hb_pb (one per $0.10 step)',
       '',
       '📖 FULL INTEGRATION GUIDE:',
-      '   • Online:   https://aryanvani-pm.github.io/bidding-player/docs.html',
-      '   • PDF:      https://aryanvani-pm.github.io/bidding-player/publisher-guide.pdf',
+      '   • Online:   https://aryanvani-projects.github.io/bidding-player/docs.html',
+      '   • PDF:      https://aryanvani-projects.github.io/bidding-player/publisher-guide.pdf',
       '',
       '   The guide covers: GAM line-item setup, Limelight onboarding,',
       '   consent management (GDPR/USP/GPP), testing checklists, and',
