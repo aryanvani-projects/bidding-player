@@ -1,10 +1,12 @@
 name: Auto-regenerate publisher PDF
 
 # Whenever publisher-guide.html changes on main, re-render the PDF with
-# Chrome headless and commit it back. The trigger is path-scoped so the
-# job only runs when the HTML source actually changed, and the bot
-# commits with [skip ci] so this workflow does not re-trigger on its
-# own output.
+# Chrome headless and commit it back. The trigger is path-scoped to the
+# HTML source (+ this workflow file), so a PDF-only commit does NOT
+# re-trigger this job — which is why the commit does not need [skip ci].
+# Crucially, the regenerated-PDF commit MUST run the Pages deploy so the
+# new PDF actually goes live; using [skip ci] here would skip that deploy
+# and leave the site serving a stale PDF.
 on:
   push:
     branches: [main]
@@ -59,5 +61,5 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add publisher-guide.pdf
-          git commit -m "chore(docs): auto-regenerate publisher-guide.pdf [skip ci]"
+          git commit -m "chore(docs): auto-regenerate publisher-guide.pdf"
           git push
