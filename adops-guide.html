@@ -183,7 +183,7 @@
   <h1>Ad Ops Dashboard Guide</h1>
   <p class="lead">Internal playbook for operating the Bidding Player platform — how to use the dashboard, how to onboard new publishers, and how to extend the system with new SSPs.</p>
   <div style="display:flex;gap:8px;flex-wrap:wrap;">
-    <span class="pill accent">v2.4.2</span>
+    <span class="pill accent">v2.4.3</span>
     <span class="pill">Multi-bidder</span>
     <span class="pill">Internal docs</span>
   </div>
@@ -431,6 +431,10 @@
   <h2>Changelog</h2>
   <ul class="changelog">
     <li>
+      <div class="ver">v2.4.3</div>
+      <div class="desc"><strong>Outstream unmute control.</strong> Outstream ads autoplay muted, so the player now shows a tap-for-sound mute/unmute toggle (bottom-left) while the ad plays. IMA's own controls (ad label, countdown, clickthrough, skip) are unchanged — the toggle is an overlay for the one control IMA doesn't provide generically.</div>
+    </li>
+    <li>
       <div class="ver">v2.4.2</div>
       <div class="desc"><strong>Outstream muted-autoplay fix.</strong> The outstream renderer never actually muted the ad, so the browser blocked its autoplay (outstream starts on scroll, with no user click) — the slot would expand to a black frame for a split second and then collapse. The engine now mutes the outstream ad (video element + <code>adsManager.setVolume(0)</code>) so muted autoplay is allowed, and logs IMA ad errors under <code>?debug=true</code>.</div>
     </li>
@@ -482,9 +486,9 @@
 </section>
 
 <footer>
-  Bidding Player Ad Ops Console &bull; v2.4.2 &bull; Internal documentation<br>
+  Bidding Player Ad Ops Console &bull; v2.4.3 &bull; Internal documentation<br>
   Repo: <code>github.com/aryanvani-projects/bidding-player</code> &bull;
-  Engine: <code>cdn.jsdelivr.net/gh/aryanvani-projects/bidding-player@v2.4.2/engine/player.js</code>
+  Engine: <code>cdn.jsdelivr.net/gh/aryanvani-projects/bidding-player@v2.4.3/engine/player.js</code>
 </footer>
 
 </main>

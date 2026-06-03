@@ -22,7 +22,7 @@ The dashboard (`index.html`) lets AdOps generate production tags, run sandbox si
 
 ## 2. Current Version
 
-**VERSION:** `2.4.2`  
+**VERSION:** `2.4.3`  
 All `@vX.Y.Z` CDN references in `index.html` and `demo/publisher-test.html` **must** match this value.
 The `version-check.yml` CI workflow enforces this — it will fail the build if they drift.
 
@@ -239,7 +239,10 @@ Final log line: `Final hb_pb value: $X.XX`
 
 ## 10. Release History
 
-### v2.4.2 (current)
+### v2.4.3 (current)
+- **Outstream unmute control** — outstream autoplays muted, so the engine now overlays a custom mute/unmute (sound) toggle bottom-left while the ad plays (shown on `CONTENT_PAUSE_REQUESTED`, hidden on complete/error). Tap toggles `adsManager.setVolume()` + `videoEl.muted` and swaps the speaker icon; the button sits above the IMA ad container (`z-index` max) and `stopPropagation`s so it doesn't fire the ad clickthrough. IMA's own controls are untouched — we still pass no restrictive `AdsRenderingSettings`, so all creative-supported IMA UI (ad label, countdown, clickthrough, skip) stays on; we only add the sound toggle IMA doesn't provide.
+
+### v2.4.2
 - **Outstream muted-autoplay fix** — the outstream path read `cfg.muted` but never applied it, so IMA tried to autoplay the ad with sound. Outstream starts on scroll (no user gesture), so the browser blocked the unmuted autoplay → `AD_ERROR` → the slot expanded to a black frame then immediately collapsed (a "split-second flash"). Fix: `ensureMount` sets `videoEl.muted` for outstream, and `setupOutstream` calls `adsManager.setVolume(0)` before `start()`. Also: the outstream `AD_ERROR` handlers now log the IMA error (`?debug=true`) instead of collapsing silently.
 
 ### v2.4.1
@@ -294,6 +297,7 @@ Priority order as of v2.4.0:
 |---|---|---|
 | 1 | **Sandbox: Real Bid Request mode** | Fire real `pbjs.requestBids()` from sandbox; show actual response times + live CPMs |
 | 2 | **Per-bidder floor override** | Floor min/max are global today; AdOps may want a per-SSP floor |
+| 3 | **Auto-updating engine tag (publisher-side)** | Let a publisher's tag pick up the latest engine without re-issuing it. Cleanest path: jsDelivr semver-range URL (`bidding-player@2/engine/player.js` → latest 2.x, or `@2.4` → latest 2.4.x) instead of a pinned `@vX.Y.Z`. **Trade-off:** range URLs are mutable + cached ~12–24h (vs ~5-min immutable tags), so a bad release auto-propagates to all publishers — needs a rollback/canary story before adopting. Avoid `@main` (mutable, ~12h cache, no review gate). Possible safer variant: a thin pinned loader that reads `VERSION` and injects the matching engine. |
 
 ### Medium-term
 | # | Feature | Why |
@@ -355,4 +359,4 @@ The bundle is built via GitHub Actions (`build-prebid-bundle.yml`, manual dispat
 
 ---
 
-*Last updated: v2.4.2 — 2026-06-03*
+*Last updated: v2.4.3 — 2026-06-03*

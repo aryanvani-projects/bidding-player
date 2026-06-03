@@ -333,16 +333,41 @@
 
       loader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED, function (e) {
         var mgr = e.getAdsManager(videoEl);
+
+        // Outstream autoplays muted (browser policy), so give viewers a clear
+        // tap-for-sound control — the one control outstream units are expected
+        // to surface. IMA does not provide a generic mute toggle, so we overlay
+        // our own. It sits above the IMA ad container and toggles mgr volume.
+        var ICON_MUTED = '<svg viewBox="0 0 24 24" width="18" height="18" fill="#fff" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M16.5 9 21 15M21 9l-4.5 6" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
+        var ICON_SOUND = '<svg viewBox="0 0 24 24" width="18" height="18" fill="#fff" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8 8 0 0 1 0 12" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
+        var adMuted = !!cfg.muted;
+        var soundBtn = document.createElement("button");
+        soundBtn.setAttribute("aria-label", "Unmute ad");
+        soundBtn.innerHTML = ICON_MUTED;
+        soundBtn.style.cssText = "position:absolute;bottom:10px;left:10px;width:36px;height:36px;padding:0;border:none;border-radius:50%;background:rgba(0,0,0,.6);cursor:pointer;z-index:2147483647;display:none;align-items:center;justify-content:center;";
+        soundBtn.addEventListener("click", function (ev) {
+          ev.stopPropagation();
+          adMuted = !adMuted;
+          try { mgr.setVolume(adMuted ? 0 : 1); } catch (_) {}
+          try { videoEl.muted = adMuted; } catch (_) {}
+          soundBtn.innerHTML = adMuted ? ICON_MUTED : ICON_SOUND;
+          soundBtn.setAttribute("aria-label", adMuted ? "Unmute ad" : "Mute ad");
+        });
+        container.appendChild(soundBtn);
+
         mgr.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, function (ev) {
           warn("outstream ad error: " + ((ev && ev.getError && ev.getError()) || "unknown"));
+          soundBtn.style.display = "none";
           collapse();
           try { mgr.destroy(); } catch (_) {}
         });
         // No content to pause/resume — just size the slot to the ad.
         mgr.addEventListener(google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED, function () {
           expand();
+          soundBtn.style.display = "flex";
         });
         mgr.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function () {
+          soundBtn.style.display = "none";
           collapse();
           try { mgr.destroy(); } catch (_) {}
         });
