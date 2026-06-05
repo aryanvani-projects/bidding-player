@@ -1594,7 +1594,12 @@ async function runSandbox() {
 
   // Real bid request mode: fire a live pbjs.requestBids() and stop (no IMA
   // playback path — this mode is for auction QA, not creative rendering).
+  // Show an explanatory placeholder in the Ad Player card so the absent video
+  // reads as intentional, not broken.
   if ($('bidSource') && $('bidSource').value === 'real') {
+    disposePlayer();
+    $('videoContainer').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);font-size:13px;line-height:1.6;text-align:center;padding:24px;">Real bid request mode runs the <strong style="color:var(--text);">auction only</strong> — no creative is played here.<br>Live bidder status, CPM, and response times are in the <strong style="color:var(--text);">Console Log</strong> below.</div>';
+    $('playerCard').style.display = 'block';
     try { await runRealBidRequest({ bidders, pbTimeout, prebidCache }); }
     catch (e) { logRaw('Real bid request failed: ' + escHtml(e && e.message), 'err', 'phase'); }
     $('runBtn').disabled = false; $('btnSpinner').style.display = 'none';
