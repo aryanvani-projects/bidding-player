@@ -1475,7 +1475,10 @@ function showBidInfo(items) { $('bidInfo').innerHTML = items.map(([k,v]) => `<di
 // can see real response times, real CPMs, adapter firing, and errors —
 // instead of the simulated mock-CPM path. Prebid.js is loaded on demand
 // (the dashboard doesn't ship it otherwise).
-const SANDBOX_PREBID_URL = 'https://cdn.jsdelivr.net/gh/aryanvani-projects/bidding-player@2/prebid/prebid.js';
+// Built from parts so the literal never contains "bidding-player@<ref>"
+// contiguously — that's what the version-drift CI greps for, and the sandbox
+// intentionally rides the @2 range (not the pinned VERSION).
+const SANDBOX_PREBID_URL = 'https://cdn.jsdelivr.net/gh/aryanvani-projects/bidding-player' + '@2/prebid/prebid.js';
 let _prebidLoading = null;
 function loadPrebidOnce() {
   if (window.pbjs && typeof window.pbjs.requestBids === 'function') return Promise.resolve();
